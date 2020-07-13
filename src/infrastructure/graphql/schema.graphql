@@ -1,0 +1,70 @@
+type Query {
+  """
+  Authenticated query to fetch the current user information
+  """
+  me: MeResult!
+}
+
+type Mutation {
+  """
+  Send email with magic link
+  """
+  SignIn(credentials: SignInInput!): SignInResult!
+
+  """
+  Verify the token sent by email
+  """
+  VerifyToken(token: String!): VerifyTokenResult!
+}
+
+# SHARED
+
+type User {
+  id: ID!
+  email: String!
+}
+
+interface Error {
+  message: String!
+}
+
+type ValidationError implements Error {
+  message: String!
+}
+
+type UnauthorizedError implements Error {
+  message: String!
+}
+
+# ME
+
+union MeResult = User | UnauthorizedError
+
+# SIGN IN
+
+input SignInInput {
+  email: String!
+}
+
+type SignInPayload {
+  userId: ID!
+}
+
+union SignInResult = SignInPayload | ValidationError
+
+# VERIFY TOKEN
+
+type VerifyTokenPayload {
+  userId: ID!
+  user: User!
+}
+
+type InvalidTokenError implements Error {
+  message: String!
+}
+
+type TokenExpiredError implements Error {
+  message: String!
+}
+
+union VerifyTokenResult = VerifyTokenPayload | InvalidTokenError | TokenExpiredError
