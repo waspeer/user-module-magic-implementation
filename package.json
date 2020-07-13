@@ -6,13 +6,22 @@
   "author": "Wannes Salomé <mail@wannessalome.nl>",
   "license": "MIT",
   "scripts": {
+    "code:check:rules": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "code:check": "yarn code:lint; yarn code:format --check",
     "code:clean": "yarn code:lint --fix; yarn code:format --write",
-    "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
     "code:format": "prettier './src/**/**.{js,jsx,ts,tsx}'",
-    "code:check:rules": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+    "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\""
   },
   "devDependencies": {
-    "poetic": "^1.5.0"
+    "@types/jest": "^26.0.4",
+    "@types/uuid": "^8.0.0",
+    "@types/yup": "^0.29.3",
+    "jest": "^26.1.0",
+    "poetic": "^1.5.0",
+    "ts-jest": "^26.1.2"
+  },
+  "dependencies": {
+    "uuid": "^8.2.0",
+    "yup": "^0.29.1"
   }
 }
