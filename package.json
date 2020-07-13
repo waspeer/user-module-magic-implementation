@@ -1,0 +1,8 @@
+{
+  "name": "user-module-magic-implementation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:waspeer/user-module-magic-implementation.git",
+  "author": "Wannes Salomé <mail@wannessalome.nl>",
+  "license": "MIT"
+}
