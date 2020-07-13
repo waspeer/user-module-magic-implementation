@@ -4,5 +4,15 @@
   "main": "index.js",
   "repository": "git@github.com:waspeer/user-module-magic-implementation.git",
   "author": "Wannes Salomé <mail@wannessalome.nl>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "code:check": "yarn code:lint; yarn code:format --check",
+    "code:clean": "yarn code:lint --fix; yarn code:format --write",
+    "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
+    "code:format": "prettier './src/**/**.{js,jsx,ts,tsx}'",
+    "code:check:rules": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+  },
+  "devDependencies": {
+    "poetic": "^1.5.0"
+  }
 }
