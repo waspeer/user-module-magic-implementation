@@ -20,19 +20,21 @@ export class SignInResolver implements Resolver<MutationSignInArgs, SignInResult
     this.signInFeature = signInFeature;
   }
 
-  @CatchResolverError()
+  @CatchResolverError
   public async resolve({ credentials: { email } }: MutationSignInArgs): Promise<SignInResult> {
     this.logger.debug("SignInResolver: received request to sign in user with email '%s'", email);
 
-    await this.signInFeature.execute({ email });
+    const user = await this.signInFeature.execute({ email });
 
     return {
-      __typename: 'SignInPayload',
-      userId: 'id', // TODO add query function
+      __typename: 'SignInPayload' as const,
+      userId: user.id.value,
     };
   }
 
   public handleError(error: Error): SignInResult {
+    this.logger.debug('SignInResolver: an error occurred: %s', error.message);
+
     switch (error.constructor) {
       case ValidationError:
         return {
@@ -40,7 +42,10 @@ export class SignInResolver implements Resolver<MutationSignInArgs, SignInResult
           message: error.message,
         };
       default:
-        this.logger.error('SignInResolver: an unexpected error occurred: %s', error.message);
+        this.logger.error(
+          'SignInResolver: the error could not be resolved, type of error was: %s',
+          error.constructor.name,
+        );
 
         throw new UnexpectedError(error);
     }

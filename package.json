@@ -31,7 +31,10 @@
     "ts-node": "^8.10.2"
   },
   "dependencies": {
+    "@prisma/cli": "^2.2.2",
+    "@prisma/client": "^2.2.2",
     "awilix": "^4.2.6",
+    "dotenv": "^8.2.0",
     "graphql-yoga": "^1.18.3",
     "uuid": "^8.2.0",
     "winston": "^3.3.3",

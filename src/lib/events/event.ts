@@ -1,7 +1,5 @@
-import type { UUID } from '../domain/uuid';
-
 export interface Event<T extends string = string, S = any> {
-  aggregateId: UUID;
+  aggregateId: string;
   createdAt: Date;
   payload: S;
   type: T;

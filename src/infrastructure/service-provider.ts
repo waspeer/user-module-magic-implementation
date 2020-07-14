@@ -1,12 +1,16 @@
+import { PrismaClient } from '@prisma/client';
 import { asClass, asValue, createContainer } from 'awilix';
 import type { AwilixContainer } from 'awilix';
 import { SignInFeature } from '../application/features/sign-in-feature';
+import type { UserRepository } from '../domain/repositories/user-repository';
+import { DomainEventEmitter } from '../lib/events/domain-event-emitter';
 import { getEnvironmentVariable } from '../lib/helpers/get-environment-variable';
 import type { Logger } from '../lib/logger';
 import { GraphQLResolvers } from './graphql/graphql-resolvers';
 import { GraphQLServer } from './graphql/graphql-server';
 import type { GraphQLServerConfig } from './graphql/graphql-server';
 import { SignInResolver } from './graphql/resolvers/sign-in-resolver';
+import { PrismaUserRepository } from './repositories/prisma-user-repository';
 import type { Server } from './types/server';
 import { WinstonLogger } from './winston-logger';
 
@@ -35,12 +39,21 @@ export class ServiceProvider {
       server: asClass<Server>(GraphQLServer),
       signInResolver: asClass(SignInResolver),
 
+      // REPOSITORIES
+      prismaClient: asValue(new PrismaClient()),
+      userRepository: asClass<UserRepository>(PrismaUserRepository),
+
       /**
        * APPLICATION
        */
 
       // FEATURES
       signInFeature: asClass(SignInFeature),
+
+      /**
+       * EVENTS
+       */
+      domainEventEmitter: asClass(DomainEventEmitter).singleton(),
     });
   }
 

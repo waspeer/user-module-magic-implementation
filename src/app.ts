@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { ServiceProvider } from './infrastructure/service-provider';
 import type { Server } from './infrastructure/types/server';
 

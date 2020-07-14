@@ -19,7 +19,7 @@ export class DomainEventEmitter {
 
     Promise.all(
       events.flatMap((event) => {
-        this.logger.info('Event: %s', event.type);
+        this.logger.info('DomainEvent: %s', event.type);
 
         const listeners = this.listeners[event.type] ?? [];
 
