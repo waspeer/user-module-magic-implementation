@@ -12,7 +12,10 @@
     "code:format": "prettier './src/**/**.{js,jsx,ts,tsx}'",
     "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
     "codegen:graphql-types": "graphql-codegen --config graphql-codegen.yml",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "docker:start": "docker start user-module-magic-db",
+    "docker:stop": "docker stop user-module-magic-db",
+    "predev": "yarn docker:start"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "1.17.0",

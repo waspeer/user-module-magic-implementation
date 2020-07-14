@@ -1,6 +1,6 @@
 import * as yup from 'yup';
-
 import type { Options } from './types';
+import { ValidationError } from './validation-error';
 
 export abstract class Validator<T> {
   constructor(public readonly subject: T, protected options: Options = {}) {}
@@ -17,7 +17,7 @@ export abstract class Validator<T> {
         message = error.message.replace('this', this.options.name || 'input');
       }
 
-      throw new Error(message);
+      throw new ValidationError(message);
     }
   }
 }
