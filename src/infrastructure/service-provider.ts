@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { asClass, asValue, createContainer } from 'awilix';
 import type { AwilixContainer } from 'awilix';
+import { AfterUserLoginTokenCreated } from '../application/event-handlers/after-user-login-token-created';
 import { SignInFeature } from '../application/features/sign-in-feature';
 import type { UserRepository } from '../domain/repositories/user-repository';
 import { DomainEventEmitter } from '../lib/events/domain-event-emitter';
@@ -54,6 +55,7 @@ export class ServiceProvider {
        * EVENTS
        */
       domainEventEmitter: asClass(DomainEventEmitter).singleton(),
+      afterUserLoginTokenCreated: asClass(AfterUserLoginTokenCreated).singleton(),
     });
   }
 

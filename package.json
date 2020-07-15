@@ -22,6 +22,7 @@
     "@graphql-codegen/typescript": "1.17.0",
     "@graphql-codegen/typescript-resolvers": "1.17.0",
     "@types/jest": "^26.0.4",
+    "@types/jsonwebtoken": "^8.5.0",
     "@types/uuid": "^8.0.0",
     "@types/yup": "^0.29.3",
     "jest": "^26.1.0",
@@ -36,6 +37,7 @@
     "awilix": "^4.2.6",
     "dotenv": "^8.2.0",
     "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
     "uuid": "^8.2.0",
     "winston": "^3.3.3",
     "yup": "^0.29.1"

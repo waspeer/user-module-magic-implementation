@@ -48,9 +48,8 @@ export class SignInFeature implements Feature<Arguments, User> {
       user = userOrUndefined;
     }
 
-    // 2. create a token
+    user.generateLoginToken();
 
-    // 3. dispatch events
     this.domainEventEmitter.emit(user.events.all);
 
     return user;
