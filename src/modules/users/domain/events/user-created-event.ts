@@ -1,5 +1,5 @@
-import type { Event } from '../../lib/events/event';
 import type { User } from '../entities/user';
+import type { Event } from '~lib/events/event';
 
 export class UserCreatedEvent implements Event<'user.created'> {
   public readonly aggregateId: string;

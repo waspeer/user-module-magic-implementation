@@ -3,6 +3,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'import/no-unresolved': 'off',
     'import/prefer-default-export': 'off',
     'import/order': ['error', { alphabetize: { order: 'asc', caseInsensitive: true } }],
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
@@ -10,5 +11,10 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'no-useless-constructor': 'off',
     'react/static-property-placement': 'off',
+  },
+  settings: {
+    'import/resolver': {
+      typescript: {},
+    },
   },
 };

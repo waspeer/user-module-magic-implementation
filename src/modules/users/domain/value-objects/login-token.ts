@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import { getEnvironmentVariable } from '../../lib/helpers/get-environment-variable';
 import type { User } from '../entities/user';
+import { getEnvironmentVariable } from '~lib/helpers/get-environment-variable';
 
 export class LoginToken {
   static readonly Lifetime = 3600;

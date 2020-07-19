@@ -1,10 +1,7 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { GraphQLResolveInfo } from 'graphql';
-
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
-export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } &
-  { [P in K]-?: NonNullable<T[P]> };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -33,9 +30,11 @@ export type Mutation = {
   VerifyToken: VerifyTokenResult;
 };
 
+
 export type MutationSignInArgs = {
   credentials: SignInInput;
 };
+
 
 export type MutationVerifyTokenArgs = {
   token: Scalars['String'];
@@ -87,7 +86,10 @@ export type VerifyTokenPayload = {
 
 export type VerifyTokenResult = VerifyTokenPayload | InvalidTokenError | TokenExpiredError;
 
+
+
 export type ResolverTypeWrapper<T> = Promise<T> | T;
+
 
 export type LegacyStitchingResolver<TResult, TParent, TContext, TArgs> = {
   fragment: string;
@@ -98,9 +100,7 @@ export type NewStitchingResolver<TResult, TParent, TContext, TArgs> = {
   selectionSet: string;
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type StitchingResolver<TResult, TParent, TContext, TArgs> =
-  | LegacyStitchingResolver<TResult, TParent, TContext, TArgs>
-  | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
+export type StitchingResolver<TResult, TParent, TContext, TArgs> = LegacyStitchingResolver<TResult, TParent, TContext, TArgs> | NewStitchingResolver<TResult, TParent, TContext, TArgs>;
 export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
   | ResolverFn<TResult, TParent, TContext, TArgs>
   | StitchingResolver<TResult, TParent, TContext, TArgs>;
@@ -109,30 +109,24 @@ export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => AsyncIterator<TResult> | Promise<AsyncIterator<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
-export interface SubscriptionSubscriberObject<
-  TResult,
-  TKey extends string,
-  TParent,
-  TContext,
-  TArgs
-> {
+export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
   subscribe: SubscriptionSubscribeFn<{ [key in TKey]: TResult }, TParent, TContext, TArgs>;
   resolve?: SubscriptionResolveFn<TResult, { [key in TKey]: TResult }, TContext, TArgs>;
 }
@@ -146,26 +140,17 @@ export type SubscriptionObject<TResult, TKey extends string, TParent, TContext, 
   | SubscriptionSubscriberObject<TResult, TKey, TParent, TContext, TArgs>
   | SubscriptionResolverObject<TResult, TParent, TContext, TArgs>;
 
-export type SubscriptionResolver<
-  TResult,
-  TKey extends string,
-  TParent = {},
-  TContext = {},
-  TArgs = {}
-> =
+export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TContext = {}, TArgs = {}> =
   | ((...args: any[]) => SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>)
   | SubscriptionObject<TResult, TKey, TParent, TContext, TArgs>;
 
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}> = (
-  obj: T,
-  info: GraphQLResolveInfo,
-) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}> = (obj: T, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -174,7 +159,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo,
+  info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
 
 /** Mapping between all available schema types and the resolvers types */
@@ -185,20 +170,13 @@ export type ResolversTypes = {
   ID: ResolverTypeWrapper<Scalars['ID']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   UnauthorizedError: ResolverTypeWrapper<UnauthorizedError>;
-  Error:
-    | ResolversTypes['UnauthorizedError']
-    | ResolversTypes['ValidationError']
-    | ResolversTypes['InvalidTokenError']
-    | ResolversTypes['TokenExpiredError'];
+  Error: ResolversTypes['UnauthorizedError'] | ResolversTypes['ValidationError'] | ResolversTypes['InvalidTokenError'] | ResolversTypes['TokenExpiredError'];
   Mutation: ResolverTypeWrapper<{}>;
   SignInInput: SignInInput;
   SignInResult: ResolversTypes['SignInPayload'] | ResolversTypes['ValidationError'];
   SignInPayload: ResolverTypeWrapper<SignInPayload>;
   ValidationError: ResolverTypeWrapper<ValidationError>;
-  VerifyTokenResult:
-    | ResolversTypes['VerifyTokenPayload']
-    | ResolversTypes['InvalidTokenError']
-    | ResolversTypes['TokenExpiredError'];
+  VerifyTokenResult: ResolversTypes['VerifyTokenPayload'] | ResolversTypes['InvalidTokenError'] | ResolversTypes['TokenExpiredError'];
   VerifyTokenPayload: ResolverTypeWrapper<VerifyTokenPayload>;
   InvalidTokenError: ResolverTypeWrapper<InvalidTokenError>;
   TokenExpiredError: ResolverTypeWrapper<TokenExpiredError>;
@@ -213,144 +191,80 @@ export type ResolversParentTypes = {
   ID: Scalars['ID'];
   String: Scalars['String'];
   UnauthorizedError: UnauthorizedError;
-  Error:
-    | ResolversParentTypes['UnauthorizedError']
-    | ResolversParentTypes['ValidationError']
-    | ResolversParentTypes['InvalidTokenError']
-    | ResolversParentTypes['TokenExpiredError'];
+  Error: ResolversParentTypes['UnauthorizedError'] | ResolversParentTypes['ValidationError'] | ResolversParentTypes['InvalidTokenError'] | ResolversParentTypes['TokenExpiredError'];
   Mutation: {};
   SignInInput: SignInInput;
   SignInResult: ResolversParentTypes['SignInPayload'] | ResolversParentTypes['ValidationError'];
   SignInPayload: SignInPayload;
   ValidationError: ValidationError;
-  VerifyTokenResult:
-    | ResolversParentTypes['VerifyTokenPayload']
-    | ResolversParentTypes['InvalidTokenError']
-    | ResolversParentTypes['TokenExpiredError'];
+  VerifyTokenResult: ResolversParentTypes['VerifyTokenPayload'] | ResolversParentTypes['InvalidTokenError'] | ResolversParentTypes['TokenExpiredError'];
   VerifyTokenPayload: VerifyTokenPayload;
   InvalidTokenError: InvalidTokenError;
   TokenExpiredError: TokenExpiredError;
   Boolean: Scalars['Boolean'];
 };
 
-export type ErrorResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']
-> = {
-  __resolveType: TypeResolveFn<
-    'UnauthorizedError' | 'ValidationError' | 'InvalidTokenError' | 'TokenExpiredError',
-    ParentType,
-    ContextType
-  >;
+export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
+  __resolveType: TypeResolveFn<'UnauthorizedError' | 'ValidationError' | 'InvalidTokenError' | 'TokenExpiredError', ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
-export type InvalidTokenErrorResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['InvalidTokenError'] = ResolversParentTypes['InvalidTokenError']
-> = {
+export type InvalidTokenErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['InvalidTokenError'] = ResolversParentTypes['InvalidTokenError']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type MeResultResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['MeResult'] = ResolversParentTypes['MeResult']
-> = {
+export type MeResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['MeResult'] = ResolversParentTypes['MeResult']> = {
   __resolveType: TypeResolveFn<'User' | 'UnauthorizedError', ParentType, ContextType>;
 };
 
-export type MutationResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
-> = {
-  SignIn?: Resolver<
-    ResolversTypes['SignInResult'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationSignInArgs, 'credentials'>
-  >;
-  VerifyToken?: Resolver<
-    ResolversTypes['VerifyTokenResult'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationVerifyTokenArgs, 'token'>
-  >;
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  SignIn?: Resolver<ResolversTypes['SignInResult'], ParentType, ContextType, RequireFields<MutationSignInArgs, 'credentials'>>;
+  VerifyToken?: Resolver<ResolversTypes['VerifyTokenResult'], ParentType, ContextType, RequireFields<MutationVerifyTokenArgs, 'token'>>;
 };
 
-export type QueryResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
-> = {
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   me?: Resolver<ResolversTypes['MeResult'], ParentType, ContextType>;
 };
 
-export type SignInPayloadResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']
-> = {
+export type SignInPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInPayload'] = ResolversParentTypes['SignInPayload']> = {
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type SignInResultResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']
-> = {
+export type SignInResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['SignInResult'] = ResolversParentTypes['SignInResult']> = {
   __resolveType: TypeResolveFn<'SignInPayload' | 'ValidationError', ParentType, ContextType>;
 };
 
-export type TokenExpiredErrorResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['TokenExpiredError'] = ResolversParentTypes['TokenExpiredError']
-> = {
+export type TokenExpiredErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenExpiredError'] = ResolversParentTypes['TokenExpiredError']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type UnauthorizedErrorResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['UnauthorizedError'] = ResolversParentTypes['UnauthorizedError']
-> = {
+export type UnauthorizedErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['UnauthorizedError'] = ResolversParentTypes['UnauthorizedError']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type UserResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
-> = {
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type ValidationErrorResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['ValidationError'] = ResolversParentTypes['ValidationError']
-> = {
+export type ValidationErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['ValidationError'] = ResolversParentTypes['ValidationError']> = {
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type VerifyTokenPayloadResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['VerifyTokenPayload'] = ResolversParentTypes['VerifyTokenPayload']
-> = {
+export type VerifyTokenPayloadResolvers<ContextType = any, ParentType extends ResolversParentTypes['VerifyTokenPayload'] = ResolversParentTypes['VerifyTokenPayload']> = {
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type VerifyTokenResultResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['VerifyTokenResult'] = ResolversParentTypes['VerifyTokenResult']
-> = {
-  __resolveType: TypeResolveFn<
-    'VerifyTokenPayload' | 'InvalidTokenError' | 'TokenExpiredError',
-    ParentType,
-    ContextType
-  >;
+export type VerifyTokenResultResolvers<ContextType = any, ParentType extends ResolversParentTypes['VerifyTokenResult'] = ResolversParentTypes['VerifyTokenResult']> = {
+  __resolveType: TypeResolveFn<'VerifyTokenPayload' | 'InvalidTokenError' | 'TokenExpiredError', ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
@@ -368,6 +282,7 @@ export type Resolvers<ContextType = any> = {
   VerifyTokenPayload?: VerifyTokenPayloadResolvers<ContextType>;
   VerifyTokenResult?: VerifyTokenResultResolvers;
 };
+
 
 /**
  * @deprecated

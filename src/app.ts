@@ -1,10 +1,10 @@
 import 'dotenv/config';
-import { ServiceProvider } from './infrastructure/service-provider';
+import 'module-alias/register';
+import { AppDIContainer } from './infrastructure/app-di-container';
 import type { Server } from './infrastructure/types/server';
-import type { Listener } from './lib/events/listener';
 
-const serviceProvider = new ServiceProvider();
+// TODO make server start more generic?
 
-serviceProvider.get<Listener<any>>('afterUserLoginTokenCreated').register();
+const serviceProvider = new AppDIContainer();
 
 serviceProvider.get<Server>('server').start();

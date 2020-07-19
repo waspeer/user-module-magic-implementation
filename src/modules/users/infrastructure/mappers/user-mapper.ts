@@ -1,7 +1,7 @@
 import type { User as PrismaUser, UserCreateInput } from '@prisma/client';
 import { User } from '../../domain/entities/user';
 import { Email } from '../../domain/value-objects/email';
-import { UUID } from '../../lib/domain/uuid';
+import { UUID } from '~lib/domain/uuid';
 
 export class UserMapper {
   static toDomain(prismaUser: PrismaUser): User {

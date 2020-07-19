@@ -1,4 +1,4 @@
-import { Validate } from '../../lib/validate';
+import { Validate } from '~lib/validate';
 
 export class Email {
   private readonly _value: string;

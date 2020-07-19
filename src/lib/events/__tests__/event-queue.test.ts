@@ -5,13 +5,13 @@ import { EventQueue } from '../event-queue';
 const queue = new EventQueue();
 
 class TestEvent implements Event<'test.event', boolean> {
-  public readonly aggregateId: UUID;
+  public readonly aggregateId: string;
   public readonly createdAt: Date;
   public readonly payload: boolean;
   public readonly type = 'test.event';
 
   constructor() {
-    this.aggregateId = new UUID();
+    this.aggregateId = new UUID().value;
     this.createdAt = new Date();
     this.payload = true;
   }

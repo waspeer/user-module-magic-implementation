@@ -1,10 +1,10 @@
 import type { SignInFeature } from '../../../application/features/sign-in-feature';
-import { UnexpectedError } from '../../../lib/errors/unexpected-error';
-import type { Logger } from '../../../lib/logger';
-import { ValidationError } from '../../../lib/validate/validation-error';
 import type { MutationSignInArgs, SignInResult } from '../../types/graphql/generated';
 import type { Resolver } from '../../types/graphql/resolver';
 import { CatchResolverError } from './helpers/catch-resolver-error';
+import { UnexpectedError } from '~lib/errors/unexpected-error';
+import type { Logger } from '~lib/logger';
+import { ValidationError } from '~lib/validate/validation-error';
 
 interface Dependencies {
   logger: Logger;

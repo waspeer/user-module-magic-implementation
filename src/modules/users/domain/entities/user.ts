@@ -1,8 +1,8 @@
-import { AggregateRoot } from '../../lib/domain/aggregate-root';
 import { UserCreatedEvent } from '../events/user-created-event';
 import { UserLoginTokenCreatedEvent } from '../events/user-login-token-created';
 import type { Email } from '../value-objects/email';
 import { LoginToken } from '../value-objects/login-token';
+import { AggregateRoot } from '~lib/domain/aggregate-root';
 
 interface Props {
   email: Email;

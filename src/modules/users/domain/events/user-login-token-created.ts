@@ -1,6 +1,6 @@
-import type { Event } from '../../lib/events/event';
 import type { User } from '../entities/user';
 import type { LoginToken } from '../value-objects/login-token';
+import type { Event } from '~lib/events/event';
 
 export class UserLoginTokenCreatedEvent
   implements Event<'user.loginTokenCreated', { token: string }> {

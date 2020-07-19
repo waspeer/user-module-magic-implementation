@@ -1,9 +1,9 @@
 import { User } from '../../domain/entities/user';
 import type { UserRepository } from '../../domain/repositories/user-repository';
 import { Email } from '../../domain/value-objects/email';
-import type { Feature } from '../../lib/application/feature';
-import type { DomainEventEmitter } from '../../lib/events/domain-event-emitter';
-import type { Logger } from '../../lib/logger';
+import type { Feature } from '~lib/application/feature';
+import type { DomainEventEmitter } from '~lib/events/domain-event-emitter';
+import type { Logger } from '~lib/logger';
 
 interface Dependencies {
   domainEventEmitter: DomainEventEmitter;
