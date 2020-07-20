@@ -1,11 +1,11 @@
 import type { User } from '../entities/user';
-import type { Event } from '~lib/events/event';
+import { EventTypes, UserCreatedEvent as IUserCreatedEvent } from '~root/events/event-types';
 
-export class UserCreatedEvent implements Event<'user.created'> {
+export class UserCreatedEvent implements IUserCreatedEvent {
   public readonly aggregateId: string;
   public readonly createdAt = new Date();
   public readonly payload = undefined;
-  public readonly type = 'user.created';
+  public readonly type = EventTypes.UserCreated;
 
   public constructor(user: User) {
     this.aggregateId = user.id.value;

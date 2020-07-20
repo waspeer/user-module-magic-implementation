@@ -7,7 +7,7 @@ interface Dependencies {
   logger: Logger;
 }
 
-export class DomainEventEmitter {
+export class DomainEventEmitter<T extends string> {
   private readonly emitter: EventEmitter;
   private readonly logger: Logger;
 
@@ -16,7 +16,7 @@ export class DomainEventEmitter {
     this.logger = logger;
   }
 
-  public emit(eventOrEvents: Event | Event[]) {
+  public emit(eventOrEvents: Event<T> | Event<T>[]) {
     const events = Array.isArray(eventOrEvents) ? eventOrEvents : [eventOrEvents];
 
     events.forEach((event) => {
@@ -25,7 +25,7 @@ export class DomainEventEmitter {
     });
   }
 
-  public on<T extends Event>(eventType: string, listener: Listener<T>) {
+  public on<E extends Event>(eventType: T, listener: Listener<E>) {
     this.logger.debug(
       'DomainEventEmitter: registering %s for event %s',
       listener.constructor.name,

@@ -3,12 +3,13 @@ import { UserLoginTokenCreatedEvent } from '../events/user-login-token-created';
 import type { Email } from '../value-objects/email';
 import { LoginToken } from '../value-objects/login-token';
 import { AggregateRoot } from '~lib/domain/aggregate-root';
+import type { EventTypes } from '~root/events/event-types';
 
 interface Props {
   email: Email;
 }
 
-export class User extends AggregateRoot<Props> {
+export class User extends AggregateRoot<Props, EventTypes> {
   protected createCreatedEvent() {
     return new UserCreatedEvent(this);
   }

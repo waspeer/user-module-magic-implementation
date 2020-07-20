@@ -2,11 +2,11 @@ import { User } from '../../domain/entities/user';
 import type { UserRepository } from '../../domain/repositories/user-repository';
 import { Email } from '../../domain/value-objects/email';
 import type { Feature } from '~lib/application/feature';
-import type { DomainEventEmitter } from '~lib/events/domain-event-emitter';
 import type { Logger } from '~lib/logger';
+import { AppDomainEventEmitter } from '~root/events/app-domain-event-emitter';
 
 interface Dependencies {
-  domainEventEmitter: DomainEventEmitter;
+  domainEventEmitter: AppDomainEventEmitter;
   logger: Logger;
   userRepository: UserRepository;
 }
@@ -16,7 +16,7 @@ interface Arguments {
 }
 
 export class SignInFeature implements Feature<Arguments, User> {
-  private readonly domainEventEmitter: DomainEventEmitter;
+  private readonly domainEventEmitter: AppDomainEventEmitter;
   private readonly logger: Logger;
   private readonly userRepository: UserRepository;
 

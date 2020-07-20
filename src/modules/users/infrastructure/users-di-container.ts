@@ -1,19 +1,19 @@
 import path from 'path';
 import { PrismaClient } from '@prisma/client';
-import { asClass, asValue, createContainer, asFunction } from 'awilix';
 import type { AwilixContainer } from 'awilix';
+import { asClass, asFunction, asValue, createContainer } from 'awilix';
 import { SignInFeature } from '../application/features/sign-in-feature';
 import type { UserRepository } from '../domain/repositories/user-repository';
 import { createUsersSchema } from './graphql/create-users-schema';
 import { SignInResolver } from './graphql/resolvers/sign-in-resolver';
 import { UsersResolvers } from './graphql/users-resolvers';
 import { PrismaUserRepository } from './repositories/prisma-user-repository';
-import { DomainEventEmitter } from '~lib/events/domain-event-emitter';
 import type { DIContainer } from '~lib/infrastructure/di-container';
 import type { Logger } from '~lib/logger';
+import type { AppDomainEventEmitter } from '~root/events/app-domain-event-emitter';
 
 interface Dependencies {
-  domainEventEmitter: DomainEventEmitter;
+  domainEventEmitter: AppDomainEventEmitter;
   logger: Logger;
 }
 

@@ -1,16 +1,16 @@
 import type { DomainEventEmitter } from './domain-event-emitter';
 import type { Event } from './event';
 
-interface Dependencies {
-  domainEventEmitter: DomainEventEmitter;
+interface Dependencies<T extends string> {
+  domainEventEmitter: DomainEventEmitter<T>;
 }
 
 export abstract class Listener<T extends Event> {
   abstract readonly eventType: T['type'];
 
-  private readonly domainEventEmitter: DomainEventEmitter;
+  private readonly domainEventEmitter: DomainEventEmitter<T['type']>;
 
-  public constructor({ domainEventEmitter }: Dependencies) {
+  public constructor({ domainEventEmitter }: Dependencies<T['type']>) {
     this.domainEventEmitter = domainEventEmitter;
   }
 
