@@ -40,9 +40,12 @@ export class GraphQLServer implements Server {
 
   public async start() {
     const { port } = this.config;
-
-    this.express.listen({ port }, () => {
+    const server = this.express.listen({ port }, () => {
       this.logger.info(`Server running on http://localhost:${port}/graphql`);
     });
+
+    ['exit', 'SIGINT', 'SIGUSR1', 'SIGUSR2', 'uncaughtException'].forEach((event) =>
+      process.on(event, () => server.close()),
+    );
   }
 }

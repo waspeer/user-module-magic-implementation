@@ -2,10 +2,10 @@ import type { User } from '../entities/user';
 import type { LoginToken } from '../value-objects/login-token';
 import {
   EventTypes,
-  UserLoginTokenCreated as IUserLoginTokenCreated,
+  UserLoginTokenCreatedEvent as IUserLoginTokenCreatedEvent,
 } from '~root/events/event-types';
 
-export class UserLoginTokenCreatedEvent implements IUserLoginTokenCreated {
+export class UserLoginTokenCreatedEvent implements IUserLoginTokenCreatedEvent {
   public readonly aggregateId: string;
   public readonly createdAt = new Date();
   public readonly payload: { token: string };

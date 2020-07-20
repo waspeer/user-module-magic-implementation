@@ -1,5 +1,6 @@
 import { asClass, asFunction, asValue, createContainer } from 'awilix';
 import type { AwilixContainer } from 'awilix';
+import { MailDIContainer } from '../modules/mail/mail-di-container';
 import { UsersDIContainer } from '../modules/users/infrastructure/users-di-container';
 import { GraphQLServer } from './graphql/graphql-server';
 import type { GraphQLServerConfig } from './graphql/graphql-server';
@@ -27,7 +28,8 @@ export class AppDIContainer implements DIContainer {
       /**
        * MODULES
        */
-      usersDIContainer: asClass(UsersDIContainer),
+      mailDIContainer: asClass(MailDIContainer).singleton(),
+      usersDIContainer: asClass(UsersDIContainer).singleton(),
 
       /**
        * GENERAL
@@ -42,6 +44,10 @@ export class AppDIContainer implements DIContainer {
       schemas: asFunction(({ usersDIContainer }: any) => [usersDIContainer.get('graphQLSchema')]),
       server: asClass<Server>(GraphQLServer),
     });
+
+    // Construct module DI containers in order to start registration
+    this.get('mailDIContainer');
+    this.get('usersDIContainer');
   }
 
   public get<T>(name: string) {
