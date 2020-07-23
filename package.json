@@ -25,6 +25,7 @@
     "@types/jest": "^26.0.4",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/mjml": "^4.0.4",
+    "@types/nodemailer": "^6.4.0",
     "@types/uuid": "^8.0.0",
     "@types/yup": "^0.29.3",
     "eslint-import-resolver-typescript": "^2.0.0",

@@ -17,8 +17,7 @@ interface Props {
 const LAYOUT_TEMPLATE_PATH = path.resolve(__dirname, 'layout.mjml');
 const DEFAULT_MJML_TEMPLATE_FACTORY = createFactoryFromFile(LAYOUT_TEMPLATE_PATH);
 
-export abstract class MJMLMessageCreator<T extends Record<string, any>>
-  implements MessageCreator<T> {
+export class MJMLMessageCreator<T extends Record<string, any>> implements MessageCreator<T> {
   private createHTML: (parameters: T) => string;
   private createSubject: (parameters: T) => string;
 
@@ -40,5 +39,9 @@ export abstract class MJMLMessageCreator<T extends Record<string, any>>
       subject: this.createSubject(parameters),
       html: this.createHTML(parameters),
     };
+  }
+
+  static create(options: { mjmlBodyTemplate: string; subjectTemplate: string }) {
+    return new MJMLMessageCreator(options);
   }
 }
