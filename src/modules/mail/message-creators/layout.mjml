@@ -19,8 +19,8 @@
       </mj-column>
     </mj-section>
 
-    <!-- BODY -->
-    <mj-include path="{{bodyTemplate}}" />
+    <!-- CONTENT -->
+    {{{bodyTemplate}}}
 
     <!-- FOOTER -->
     <mj-section>
