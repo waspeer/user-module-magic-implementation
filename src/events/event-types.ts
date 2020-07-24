@@ -7,4 +7,7 @@ export enum EventTypes {
 
 export type UserCreatedEvent = Event<EventTypes.UserCreated>;
 
-export type UserLoginTokenCreatedEvent = Event<EventTypes.UserLoginTokenCreated, { token: string }>;
+export type UserLoginTokenCreatedEvent = Event<
+  EventTypes.UserLoginTokenCreated,
+  { token: string; user: { email: string } }
+>;

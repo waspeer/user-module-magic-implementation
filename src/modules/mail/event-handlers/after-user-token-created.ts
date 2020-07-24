@@ -29,10 +29,10 @@ export class AfterUserLoginTokenCreated extends Listener<UserLoginTokenCreatedEv
   }
 
   private async sendSignInEmail(event: UserLoginTokenCreatedEvent) {
-    const { token } = event.payload;
+    const { token, user } = event.payload;
 
     this.mailService.send({
-      to: 'hello@wannessalome.nl',
+      to: user.email,
       message: this.signInMessageCreator.create({ token }),
     });
   }
