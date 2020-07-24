@@ -10,9 +10,14 @@ export interface NodemailerMailServiceConfig {
   fromAddress: string;
 }
 
+export type TransportOptions =
+  | SendmailTransport.Options
+  | JSONTransport.Options
+  | SMTPTransport.Options;
+
 interface Dependencies {
   mailServiceConfig: NodemailerMailServiceConfig;
-  transportOptions: SendmailTransport.Options | JSONTransport.Options | SMTPTransport.Options | any;
+  transportOptions: TransportOptions;
 }
 
 export class NodemailerMailService implements MailService {
@@ -24,17 +29,14 @@ export class NodemailerMailService implements MailService {
     this.transport = createTransport(transportOptions);
   }
 
-  // TODO clean this up
   public async send(options: { to: string; message: Message }) {
     const { to, message } = options;
 
-    const bla = await this.transport.sendMail({
+    await this.transport.sendMail({
       html: message.html,
       subject: message.subject,
       from: this.config.fromAddress,
       to,
     });
-
-    console.log(bla);
   }
 }

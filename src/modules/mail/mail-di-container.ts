@@ -1,9 +1,11 @@
-import { asValue, createContainer, asClass } from 'awilix';
+import { asClass, asValue, createContainer } from 'awilix';
 import type { AwilixContainer } from 'awilix';
 import { AfterUserLoginTokenCreated } from './event-handlers/after-user-token-created';
-import { NodemailerMailService, NodemailerMailServiceConfig } from './nodemailer-mail-service';
-import { MailService } from './types/mail-service';
-import { Listener } from '~lib/events/listener';
+import { MJMLSignInMessageCreator } from './message-creators/sign-in/mjml-sign-in-message-creator';
+import { NodemailerMailService } from './nodemailer-mail-service';
+import type { NodemailerMailServiceConfig, TransportOptions } from './nodemailer-mail-service';
+import type { MailService } from './types/mail-service';
+import type { SignInMessageCreator } from './types/message-creator';
 import type { DIContainer } from '~lib/infrastructure/di-container';
 import type { Logger } from '~lib/logger';
 import type { AppDomainEventEmitter } from '~root/events/app-domain-event-emitter';
@@ -26,8 +28,7 @@ export class MailDIContainer implements DIContainer {
       mailServiceConfig: asValue<NodemailerMailServiceConfig>({
         fromAddress: 'hello@wannessalome.nl',
       }),
-      // TODO type this
-      transportOptions: asValue({
+      transportOptions: asValue<TransportOptions>({
         host: 'smtp.soverin.net',
         port: 587,
         secure: false,
@@ -45,16 +46,15 @@ export class MailDIContainer implements DIContainer {
       domainEventEmitter: asValue(domainEventEmitter),
       logger: asValue(logger),
 
+      // MAILSERVICE
       mailService: asClass<MailService>(NodemailerMailService),
 
-      /**
-       * EVENTS
-       */
-      afterUserLoginTokenCreated: asClass(AfterUserLoginTokenCreated),
+      // MESSAGE CREATORS
+      signInMessageCreator: asValue<SignInMessageCreator>(MJMLSignInMessageCreator),
     });
 
     // REGISTER EVENT HANDLERS
-    this.get<Listener<any>>('afterUserLoginTokenCreated').register();
+    new AfterUserLoginTokenCreated(this.container.cradle).register();
   }
 
   public get<T>(name: string) {
