@@ -3,6 +3,7 @@ import express from 'express';
 import type { Express } from 'express';
 import type { GraphQLSchema } from 'graphql';
 import type { Server } from '../types/server';
+import type { ServerMiddleware } from '../types/server-middleware';
 import { getEnvironmentVariable } from '~lib/helpers/get-environment-variable';
 import type { Logger } from '~lib/logger';
 
@@ -11,6 +12,7 @@ export interface GraphQLServerConfig {
 }
 
 interface Dependencies {
+  middleware: ServerMiddleware[];
   logger: Logger;
   schemas: GraphQLSchema[];
   serverConfig: GraphQLServerConfig;
@@ -23,7 +25,7 @@ export class GraphQLServer implements Server {
   private readonly logger: Logger;
   public readonly express: Express;
 
-  public constructor({ logger, schemas, serverConfig }: Dependencies) {
+  public constructor({ middleware, logger, schemas, serverConfig }: Dependencies) {
     this.config = serverConfig;
     this.logger = logger;
 
@@ -34,6 +36,7 @@ export class GraphQLServer implements Server {
     });
 
     server.applyMiddleware({ app });
+    middleware.forEach((mw) => mw.apply(app));
 
     this.express = app;
   }

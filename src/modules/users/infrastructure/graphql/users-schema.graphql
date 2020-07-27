@@ -38,6 +38,7 @@ input SignInInput {
 
 type SignInPayload {
   userId: ID!
+  user: User!
 }
 
 union SignInResult = SignInPayload | ValidationError

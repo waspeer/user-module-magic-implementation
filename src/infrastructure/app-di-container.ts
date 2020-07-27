@@ -5,11 +5,13 @@ import { UsersDIContainer } from '../modules/users/infrastructure/users-di-conta
 import { GraphQLServer } from './graphql/graphql-server';
 import type { GraphQLServerConfig } from './graphql/graphql-server';
 import type { Server } from './types/server';
+import type { ServerMiddleware } from './types/server-middleware';
 import { WinstonLogger } from './winston-logger';
 import { DomainEventEmitter } from '~lib/events/domain-event-emitter';
 import { getEnvironmentVariable } from '~lib/helpers/get-environment-variable';
 import type { DIContainer } from '~lib/infrastructure/di-container';
 import type { Logger } from '~lib/logger';
+import { FrontendDIContainer } from '~root/modules/frontend/frontend-di-container';
 
 export class AppDIContainer implements DIContainer {
   private readonly container: AwilixContainer;
@@ -28,8 +30,9 @@ export class AppDIContainer implements DIContainer {
       /**
        * MODULES
        */
-      mailDIContainer: asClass(MailDIContainer).singleton(),
-      usersDIContainer: asClass(UsersDIContainer).singleton(),
+      frontendDIContainer: asClass<DIContainer>(FrontendDIContainer).singleton(),
+      mailDIContainer: asClass<DIContainer>(MailDIContainer).singleton(),
+      usersDIContainer: asClass<DIContainer>(UsersDIContainer).singleton(),
 
       /**
        * GENERAL
@@ -41,6 +44,9 @@ export class AppDIContainer implements DIContainer {
        * INFRASTRUCTURE
        */
       // GRAPHQL
+      middleware: asFunction<ServerMiddleware[]>(({ frontendDIContainer }) => [
+        frontendDIContainer.get('router'),
+      ]),
       schemas: asFunction(({ usersDIContainer }: any) => [usersDIContainer.get('graphQLSchema')]),
       server: asClass<Server>(GraphQLServer),
     });

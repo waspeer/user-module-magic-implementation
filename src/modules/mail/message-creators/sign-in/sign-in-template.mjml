@@ -3,7 +3,7 @@
     <mj-text align="center">
       Click the button below to sign in to the application
     </mj-text>
-    <mj-button href="http://localhost:4444/{{token}}">
+    <mj-button href="http://localhost:4444/login?token={{token}}">
       Sign in!
     </mj-button>
   </mj-column>

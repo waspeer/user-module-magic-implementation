@@ -1,4 +1,5 @@
 import type { SignInFeature } from '../../../application/features/sign-in-feature';
+import { UserMapper } from '../../mappers/user-mapper';
 import type { MutationSignInArgs, SignInResult } from '../../types/graphql/generated';
 import type { Resolver } from '../../types/graphql/resolver';
 import { CatchResolverError } from './helpers/catch-resolver-error';
@@ -27,14 +28,13 @@ export class SignInResolver implements Resolver<MutationSignInArgs, SignInResult
     const user = await this.signInFeature.execute({ email });
 
     return {
-      __typename: 'SignInPayload' as const,
+      __typename: 'SignInPayload',
       userId: user.id.value,
+      user: UserMapper.toPresentation(user),
     };
   }
 
   public handleError(error: Error): SignInResult {
-    this.logger.debug('SignInResolver: an error occurred: %s', error.message);
-
     switch (error.constructor) {
       case ValidationError:
         return {

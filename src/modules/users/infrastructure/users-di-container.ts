@@ -2,10 +2,13 @@ import path from 'path';
 import { PrismaClient } from '@prisma/client';
 import type { AwilixContainer } from 'awilix';
 import { asClass, asFunction, asValue, createContainer } from 'awilix';
+import { FindUserByIdFeature } from '../application/features/find-user-by-id-feature';
 import { SignInFeature } from '../application/features/sign-in-feature';
+import { VerifyTokenFeature } from '../application/features/verify-token-feature';
 import type { UserRepository } from '../domain/repositories/user-repository';
 import { createUsersSchema } from './graphql/create-users-schema';
 import { SignInResolver } from './graphql/resolvers/sign-in-resolver';
+import { VerifyTokenResolver } from './graphql/resolvers/verify-token-resolver';
 import { UsersResolvers } from './graphql/users-resolvers';
 import { PrismaUserRepository } from './repositories/prisma-user-repository';
 import type { DIContainer } from '~lib/infrastructure/di-container';
@@ -36,6 +39,7 @@ export class UsersDIContainer implements DIContainer {
       resolvers: asClass(UsersResolvers),
       schemaPath: asValue(path.resolve(__dirname, 'graphql/users-schema.graphql')),
       signInResolver: asClass(SignInResolver),
+      verifyTokenResolver: asClass(VerifyTokenResolver),
 
       // REPOSITORIES
       prismaClient: asValue(new PrismaClient()),
@@ -46,7 +50,9 @@ export class UsersDIContainer implements DIContainer {
        */
 
       // FEATURES
+      findUserByIdFeature: asClass(FindUserByIdFeature),
       signInFeature: asClass(SignInFeature),
+      verifyTokenFeature: asClass(VerifyTokenFeature),
     });
   }
 
