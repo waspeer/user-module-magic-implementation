@@ -1,6 +1,7 @@
-import type { VerifyTokenFeature } from '../../../application/features/verify-token-feature';
+import type { CreateSessionFeature } from '../../../application/features/create-session-feature';
 import { InvalidTokenError } from '../../../domain/errors/invalid-token-error';
 import { TokenExpiredError } from '../../../domain/errors/token-expired-error';
+import { UserMapper } from '../../mappers/user-mapper';
 import type { MutationVerifyTokenArgs, VerifyTokenResult } from '../../types/graphql/generated';
 import type { Resolver } from '../../types/graphql/resolver';
 import { CatchResolverError } from './helpers/catch-resolver-error';
@@ -9,31 +10,30 @@ import type { Logger } from '~lib/logger';
 
 interface Dependencies {
   logger: Logger;
-  verifyTokenFeature: VerifyTokenFeature;
+  createSessionFeature: CreateSessionFeature;
 }
 
 type Result = Partial<VerifyTokenResult>;
 
 export class VerifyTokenResolver implements Resolver<MutationVerifyTokenArgs, Result> {
   private readonly logger: Logger;
-  private readonly verifyTokenFeature: VerifyTokenFeature;
+  private readonly createSessionFeature: CreateSessionFeature;
 
-  public constructor({ logger, verifyTokenFeature }: Dependencies) {
+  public constructor({ logger, createSessionFeature }: Dependencies) {
     this.logger = logger;
-    this.verifyTokenFeature = verifyTokenFeature;
+    this.createSessionFeature = createSessionFeature;
   }
 
   @CatchResolverError
   public async resolve({ token }: MutationVerifyTokenArgs): Promise<Result> {
     this.logger.debug("VerifyTokenResolver: received request to verify token '%s'", token);
 
-    const { userId } = await this.verifyTokenFeature.execute({ token });
-
-    // TODO implement session
+    const user = await this.createSessionFeature.execute({ token });
 
     return {
       __typename: 'VerifyTokenPayload',
-      userId,
+      userId: user.id.value,
+      user: UserMapper.toPresentation(user),
     };
   }
 

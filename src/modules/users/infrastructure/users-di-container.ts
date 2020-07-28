@@ -2,14 +2,16 @@ import path from 'path';
 import { PrismaClient } from '@prisma/client';
 import type { AwilixContainer } from 'awilix';
 import { asClass, asFunction, asValue, createContainer } from 'awilix';
+import { CreateSessionFeature } from '../application/features/create-session-feature';
 import { FindUserByIdFeature } from '../application/features/find-user-by-id-feature';
 import { SignInFeature } from '../application/features/sign-in-feature';
-import { VerifyTokenFeature } from '../application/features/verify-token-feature';
+import type { SessionRepository } from '../domain/repositories/session-repository';
 import type { UserRepository } from '../domain/repositories/user-repository';
 import { createUsersSchema } from './graphql/create-users-schema';
 import { SignInResolver } from './graphql/resolvers/sign-in-resolver';
 import { VerifyTokenResolver } from './graphql/resolvers/verify-token-resolver';
 import { UsersResolvers } from './graphql/users-resolvers';
+import { PrismaSessionRepository } from './repositories/prisma-session-repository';
 import { PrismaUserRepository } from './repositories/prisma-user-repository';
 import type { DIContainer } from '~lib/infrastructure/di-container';
 import type { Logger } from '~lib/logger';
@@ -43,6 +45,7 @@ export class UsersDIContainer implements DIContainer {
 
       // REPOSITORIES
       prismaClient: asValue(new PrismaClient()),
+      sessionRepository: asClass<SessionRepository>(PrismaSessionRepository),
       userRepository: asClass<UserRepository>(PrismaUserRepository),
 
       /**
@@ -50,9 +53,9 @@ export class UsersDIContainer implements DIContainer {
        */
 
       // FEATURES
+      createSessionFeature: asClass(CreateSessionFeature),
       findUserByIdFeature: asClass(FindUserByIdFeature),
       signInFeature: asClass(SignInFeature),
-      verifyTokenFeature: asClass(VerifyTokenFeature),
     });
   }
 

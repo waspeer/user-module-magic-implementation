@@ -1,9 +1,10 @@
-import { User } from '../../domain/entities/user';
+import type { User } from '../../domain/entities/user';
+import { InvalidTokenError } from '../../domain/errors/invalid-token-error';
 import type { UserRepository } from '../../domain/repositories/user-repository';
-import { Email } from '../../domain/value-objects/email';
+import { LoginToken } from '../../domain/value-objects/login-token';
 import type { Feature } from '~lib/application/feature';
 import type { Logger } from '~lib/logger';
-import { AppDomainEventEmitter } from '~root/events/app-domain-event-emitter';
+import type { AppDomainEventEmitter } from '~root/events/app-domain-event-emitter';
 
 interface Dependencies {
   domainEventEmitter: AppDomainEventEmitter;
@@ -12,10 +13,10 @@ interface Dependencies {
 }
 
 interface Arguments {
-  email: string;
+  token: string;
 }
 
-export class SignInFeature implements Feature<Arguments, User> {
+export class CreateSessionFeature implements Feature<Arguments, User> {
   private readonly domainEventEmitter: AppDomainEventEmitter;
   private readonly logger: Logger;
   private readonly userRepository: UserRepository;
@@ -26,27 +27,19 @@ export class SignInFeature implements Feature<Arguments, User> {
     this.userRepository = userRepository;
   }
 
-  public async execute({ email }: Arguments) {
-    let user: User;
+  public async execute({ token }: Arguments): Promise<User> {
+    const { userId } = LoginToken.verify(token);
+    const user = await this.userRepository.findById(userId);
 
-    const userOrUndefined = await this.userRepository.findByEmail(email);
+    if (!user) {
+      this.logger.debug('CreateSessionFeature: id in token could not be associated with a user');
 
-    if (userOrUndefined === undefined) {
-      this.logger.debug(
-        "SignInFeature: no user with email '%s' found, attempting to create it...",
-        email,
-      );
-
-      user = new User({
-        email: new Email(email),
-      });
-    } else {
-      this.logger.debug('SignInFeature: found user associated with email: %s', email);
-
-      user = userOrUndefined;
+      throw new InvalidTokenError();
     }
 
-    user.createLoginToken();
+    this.logger.debug('CreateSessionFeature: token is valid, creating session...');
+
+    user.createSession();
 
     await this.userRepository.store(user);
     this.domainEventEmitter.emit(user.events.all);

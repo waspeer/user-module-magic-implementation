@@ -1,3 +1,4 @@
 # Prisma Migrate lockfile v1
 
 20200714202046-init
+20200728211241-add-session-table
