@@ -30,6 +30,8 @@ export class VerifyTokenResolver implements Resolver<MutationVerifyTokenArgs, Re
 
     const user = await this.createSessionFeature.execute({ token });
 
+    // TODO create session cookie
+
     return {
       __typename: 'VerifyTokenPayload',
       userId: user.id.value,

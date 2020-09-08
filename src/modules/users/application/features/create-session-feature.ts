@@ -39,6 +39,9 @@ export class CreateSessionFeature implements Feature<Arguments, User> {
 
     this.logger.debug('CreateSessionFeature: token is valid, creating session...');
 
+    // TODO check if correlationID was already used, if so token was already used
+    // TODO check if a session already exists, if yes destroy it
+
     user.createSession();
 
     await this.userRepository.store(user);

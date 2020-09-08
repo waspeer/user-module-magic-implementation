@@ -58,4 +58,8 @@ type TokenExpiredError implements Error {
   message: String!
 }
 
+type TokenAlreadyUsed implements Error {
+  message: String!
+}
+
 union VerifyTokenResult = VerifyTokenPayload | InvalidTokenError | TokenExpiredError

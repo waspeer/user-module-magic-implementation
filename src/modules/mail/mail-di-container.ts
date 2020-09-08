@@ -6,6 +6,7 @@ import { NodemailerMailService } from './nodemailer-mail-service';
 import type { NodemailerMailServiceConfig, TransportOptions } from './nodemailer-mail-service';
 import type { MailService } from './types/mail-service';
 import type { SignInMessageCreator } from './types/message-creator';
+import { getEnvironmentVariable } from '~lib/helpers/get-environment-variable';
 import type { DIContainer } from '~lib/infrastructure/di-container';
 import type { Logger } from '~lib/logger';
 import type { AppDomainEventEmitter } from '~root/events/app-domain-event-emitter';
@@ -14,6 +15,9 @@ interface Dependencies {
   domainEventEmitter: AppDomainEventEmitter;
   logger: Logger;
 }
+
+const SMTP_USER = getEnvironmentVariable('SMTP_USER');
+const SMTP_PASSWORD = getEnvironmentVariable('SMTP_PASSWORD');
 
 export class MailDIContainer implements DIContainer {
   private readonly container: AwilixContainer;
@@ -33,8 +37,8 @@ export class MailDIContainer implements DIContainer {
         port: 587,
         secure: false,
         auth: {
-          user: 'hello@wannessalome.nl',
-          pass: 'Ew0FevByjIY4',
+          user: SMTP_USER,
+          pass: SMTP_PASSWORD,
         },
       }),
 

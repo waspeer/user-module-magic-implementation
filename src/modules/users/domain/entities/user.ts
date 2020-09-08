@@ -39,6 +39,9 @@ export class User extends AggregateRoot<Props, EventTypes> {
   }
 
   public createSession() {
+    // TODO create session with correlationID
+    //   maybe set it as sessionID
+
     this.props.session = new Session({ userId: this.id });
 
     this.events.add(new UserSessionCreatedEvent({ user: this }));

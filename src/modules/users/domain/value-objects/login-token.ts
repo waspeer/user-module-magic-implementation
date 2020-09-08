@@ -4,6 +4,8 @@ import { InvalidTokenError } from '../errors/invalid-token-error';
 import { TokenExpiredError } from '../errors/token-expired-error';
 import { getEnvironmentVariable } from '~lib/helpers/get-environment-variable';
 
+// TODO add correlationID/SessionID with which can be checked if the token was already used
+
 interface TokenPayload {
   userId: string;
 }

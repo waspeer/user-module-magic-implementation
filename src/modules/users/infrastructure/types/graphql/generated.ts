@@ -87,6 +87,11 @@ export type TokenExpiredError = Error & {
   message: Scalars['String'];
 };
 
+export type TokenAlreadyUsed = Error & {
+  __typename?: 'TokenAlreadyUsed';
+  message: Scalars['String'];
+};
+
 
 
 export type ResolverTypeWrapper<T> = Promise<Partial<T>> | Partial<T>;
@@ -175,12 +180,13 @@ export type ResolversTypes = {
   User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   UnauthorizedError: ResolverTypeWrapper<UnauthorizedError>;
-  Error: ResolversTypes['UnauthorizedError'] | ResolversTypes['ValidationError'] | ResolversTypes['InvalidTokenError'] | ResolversTypes['TokenExpiredError'];
+  Error: ResolversTypes['UnauthorizedError'] | ResolversTypes['ValidationError'] | ResolversTypes['InvalidTokenError'] | ResolversTypes['TokenExpiredError'] | ResolversTypes['TokenAlreadyUsed'];
   SignInPayload: ResolverTypeWrapper<SignInPayload>;
   ValidationError: ResolverTypeWrapper<ValidationError>;
   VerifyTokenPayload: ResolverTypeWrapper<VerifyTokenPayload>;
   InvalidTokenError: ResolverTypeWrapper<InvalidTokenError>;
   TokenExpiredError: ResolverTypeWrapper<TokenExpiredError>;
+  TokenAlreadyUsed: ResolverTypeWrapper<TokenAlreadyUsed>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -196,12 +202,13 @@ export type ResolversParentTypes = {
   User: User;
   ID: Scalars['ID'];
   UnauthorizedError: UnauthorizedError;
-  Error: ResolversParentTypes['UnauthorizedError'] | ResolversParentTypes['ValidationError'] | ResolversParentTypes['InvalidTokenError'] | ResolversParentTypes['TokenExpiredError'];
+  Error: ResolversParentTypes['UnauthorizedError'] | ResolversParentTypes['ValidationError'] | ResolversParentTypes['InvalidTokenError'] | ResolversParentTypes['TokenExpiredError'] | ResolversParentTypes['TokenAlreadyUsed'];
   SignInPayload: SignInPayload;
   ValidationError: ValidationError;
   VerifyTokenPayload: VerifyTokenPayload;
   InvalidTokenError: InvalidTokenError;
   TokenExpiredError: TokenExpiredError;
+  TokenAlreadyUsed: TokenAlreadyUsed;
   Boolean: Scalars['Boolean'];
 };
 
@@ -238,7 +245,7 @@ export type UnauthorizedErrorResolvers<ContextType = any, ParentType extends Res
 };
 
 export type ErrorResolvers<ContextType = any, ParentType extends ResolversParentTypes['Error'] = ResolversParentTypes['Error']> = {
-  __resolveType: TypeResolveFn<'UnauthorizedError' | 'ValidationError' | 'InvalidTokenError' | 'TokenExpiredError', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<'UnauthorizedError' | 'ValidationError' | 'InvalidTokenError' | 'TokenExpiredError' | 'TokenAlreadyUsed', ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
@@ -269,6 +276,11 @@ export type TokenExpiredErrorResolvers<ContextType = any, ParentType extends Res
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
+export type TokenAlreadyUsedResolvers<ContextType = any, ParentType extends ResolversParentTypes['TokenAlreadyUsed'] = ResolversParentTypes['TokenAlreadyUsed']> = {
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Query?: QueryResolvers<ContextType>;
   MeResult?: MeResultResolvers;
@@ -283,6 +295,7 @@ export type Resolvers<ContextType = any> = {
   VerifyTokenPayload?: VerifyTokenPayloadResolvers<ContextType>;
   InvalidTokenError?: InvalidTokenErrorResolvers<ContextType>;
   TokenExpiredError?: TokenExpiredErrorResolvers<ContextType>;
+  TokenAlreadyUsed?: TokenAlreadyUsedResolvers<ContextType>;
 };
 
 
