@@ -1,3 +1,11 @@
 {
+  "include": ["src"],
   "extends": "@tsconfig/node14/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist",
+    "paths": {
+      "~lib/*": ["src/lib/*"]
+    }
+  }
 }

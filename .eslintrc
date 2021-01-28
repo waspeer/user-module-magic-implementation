@@ -1,3 +1,6 @@
 {
-  "extends": "@waspeer/eslint-config/node"
+  "extends": [
+    "@waspeer/eslint-config",
+    "plugin:jest/recommended"
+  ]
 }
